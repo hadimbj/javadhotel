@@ -1,0 +1,62 @@
+<krpano>
+
+	<events  name="getlink"  keep="true"
+        onkeyup="if(keycode==76,buildlink();); "
+        />	
+
+	<plugin name="linktextfield"
+	        url="%SWFPATH%/plugins/textfield.swf"
+			keep="true"
+			mainwindow_keep="true"
+	        html="[p]link: ....[/p]"
+	        css="p{color:#000000;font-family:Arial;font-size:14;margin-left:5;margin-right:5;text-align:center;}"
+	        backgroundcolor="0xFFFFFF"
+	        roundedge="0"
+	        shadow="2"
+	        borderwidth="1"
+	        bordercolor="0"
+	        blendmode="layer"
+	        width="90%"
+	        autosize="left"
+	        align="center"
+	        visible="false"
+	        />
+
+	<data name="linkheader">
+			<font size="18">لينک به اين نما:</font>
+			<br/>
+			<br/>
+	</data>
+
+	<data name="linktrailer">
+			<br/>
+			<br/>
+			<font size="16"><a href="event:closetextfield();"><b><u>بستن</u></b></a></font>
+	</data>
+	
+	
+	<action name="closetextfield">
+		set(plugin[linktextfield].visible,false);
+	</action>
+	
+
+	<action name="buildlink">
+		copy(cur_hlookat,view.hlookat);
+		mod(cur_hlookat,cur_hlookat,360);
+		roundval(cur_hlookat);
+		copy(cur_vlookat,view.vlookat);
+		roundval(cur_vlookat);
+		copy(cur_fov,view.fov);
+		roundval(cur_fov);
+
+		txtadd(plugin[linktextfield].html,
+			'[p]',
+				get(data[linkheader].content),
+				get(js_htmlpath),'?t=',get(jni_tour_url),'&amp;p=',get(currentpano),'&amp;h=', get(cur_hlookat),'&amp;v=', get(cur_vlookat),'&amp;f=', get(cur_fov),
+				get(data[linktrailer].content),
+			'[/p]',
+		   );
+		   
+		set(plugin[linktextfield].visible,true);
+	</action>
+</krpano>

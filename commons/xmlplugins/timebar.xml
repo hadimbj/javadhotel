@@ -1,0 +1,296 @@
+
+<krpano version="1.0.8" >
+	
+	<action name="do_time_bar">	
+		if(%11 == 'hotspot', set(is_video_hotspot, true);, set(is_video_hotspot, false););
+		<!-- do_time_bar( video plugin name , parent , align , edge , width , height , x , y , keep , zorder );
+		-
+		- a good place to call the action is inside the onvideoready event of the videoplayer plugin...
+		-
+		- example:  onvideoready="do_time_bar( video_plugin_name , video_plugin_name );"
+		- this example should be enough for an time bar as child of an videoplayer plugin at its bottom...
+		- the missing parameters will be set by the action with default values....
+		-
+		- example:  onvideoready="do_time_bar(video,null,bottom,null,70%,6,0,20,false,10);"
+		- this example should create an time bar inside the AREA, aligned at the bottom, without edge,
+		- with a width of 70% of the area width, an height of 6, x at 0, y at 20, keep as false and
+		- an zorder of 10....
+		- it could be used as a detached time bar for a videoplayer plugin, 
+		- or for an 360 videoplayer usage....
+		-
+		- example:  onvideoready="do_time_bar(video,stage,bottom,null,70%,6,0,20,false,10);"
+		- same as above but on STAGE instead of AREA...
+		-
+		- to remove the timebar I have added an erase_time_bar() action...
+		-
+		- I just realize that I missed the case of a video player as hotspot :(...
+		- I will implement this in a future release ;)...
+		-->
+		
+		addplugin(time_bar);	
+		set(plugin[time_bar].url, %SWFPATH%/skin/bar.png );
+		set(plugin[time_bar].scale9grid, "10|7|12|2" );
+		set(plugin[time_bar].plugin_video_is, %1 );
+		ifnot(%2 == null , set(plugin[time_bar].parent, %2 ); );
+		set(plugin[time_bar].align, bottom);
+		copy(plugin[time_bar].edge, plugin[time_bar].align );
+		if(device.mobile, set(plugin[time_bar].width, 65%);, set(plugin[time_bar].width, 70%););
+		if(device.mobile, set(plugin[time_bar].height, 42);, set(plugin[time_bar].height, 15););
+		set(plugin[time_bar].x, 0);
+		set(plugin[time_bar].y, 8);
+		set(plugin[time_bar].keep, false );
+		set(plugin[time_bar].zorder, 10);
+		set(plugin[time_bar].alpha, 1 );
+		set(plugin[time_bar].onhover, get_time(); );
+		set(plugin[time_bar].ondown, getseek(); );
+		set(plugin[time_bar].accuracy, 1);
+		
+		addplugin(loadedbytes_);
+		set(plugin[loadedbytes_].url, %SWFPATH%/skin/opaque.png );
+		set(plugin[loadedbytes_].parent, time_bar );
+		set(plugin[loadedbytes_].capture, false );
+		set(plugin[loadedbytes_].children, false );
+		set(plugin[loadedbytes_].scale9grid, "10|0|12|16" );
+		set(plugin[loadedbytes_].alpha, 0.3 );
+		set(plugin[loadedbytes_].align, leftbottom );
+		copy(plugin[loadedbytes_].height, plugin[time_bar].height );
+		add(z_order,get(plugin[time_bar].zorder),1);
+		copy(plugin[loadedbytes_].zorder, z_order );
+		
+		addplugin(time_);
+		set(plugin[time_].url, %SWFPATH%/skin/opaque.png );
+		set(plugin[time_].parent, time_bar );
+		set(plugin[time_].capture, false );
+		set(plugin[time_].children, false );
+		set(plugin[time_].selectable, false );
+		set(plugin[time_].scale9grid, "7|1|1|7" );
+		set(plugin[time_].alpha, 0.4 );
+		set(plugin[time_].align, leftbottom );
+		copy(plugin[time_].height, plugin[time_bar].height );
+		add(z_order,get(plugin[time_bar].zorder),2);
+		copy(plugin[time_].zorder, z_order );
+		set(plugin[time_].background, true );
+		set(plugin[time_].backgroundcolor, 0xEEEEEE );
+
+		addplugin(time_seek);
+		set(plugin[time_seek].url, %SWFPATH%/skin/gris.png );
+		set(plugin[time_seek].parent, time_bar );
+		set(plugin[time_seek].align, left );
+		add(temp,get(plugin[time_bar].height),2);
+		copy(plugin[time_seek].height, temp );
+		copy(plugin[time_seek].width, temp );
+		add(z_order,get(plugin[time_bar].zorder),3);
+		copy(plugin[time_seek].zorder, z_order );
+		set(plugin[time_seek].onhover, showtext([textformat leftmargin='4' rightmargin='4']Seek[/textformat]); );
+		set(plugin[time_seek].ondown, set(onhover,); startdragingslider(); );
+		set(plugin[time_seek].onup, set(onhover,showtext([textformat leftmargin='4' rightmargin='4']Seek[/textformat])); stopdragingslider(); getseek(); );
+		
+		addplugin(videotimebar_bg);
+		set(plugin[videotimebar_bg].url, %SWFPATH%/skin/timebarbg.png );
+		set(plugin[videotimebar_bg].capture, false );
+		set(plugin[videotimebar_bg].scale9grid, 12|12|40|40 );
+		set(plugin[videotimebar_bg].align, bottom );
+		if(device.mobile, set(plugin[videotimebar_bg].height, 56);, set(plugin[videotimebar_bg].height, 28););
+		set(plugin[videotimebar_bg].y, 1 );
+		if(device.mobile, set(plugin[videotimebar_bg].x, -4% );, set(plugin[videotimebar_bg].x, -2% ););
+		set(plugin[videotimebar_bg].width, 75% );
+		set(plugin[videotimebar_bg].zorder, 0);
+
+		addplugin(toggleplaypause);
+		set(plugin[toggleplaypause].url, %SWFPATH%/skin/playpause.png );
+		set(plugin[toggleplaypause].align, left );
+		set(plugin[toggleplaypause].x, 1% );
+		set(plugin[toggleplaypause].parent, plugin[videotimebar_bg] );
+		set(plugin[toggleplaypause].crop, 0|0|46|46 );
+		set(plugin[toggleplaypause].height, 80% );
+		set(plugin[toggleplaypause].width, PROP );
+		set(plugin[toggleplaypause].onclick, if(is_video_hotspot, hotspot[get(plugin[time_bar].plugin_video_is)].togglepause(), plugin[get(plugin[time_bar].plugin_video_is)].togglepause()); setplaypausecrop(get(plugin[time_bar].plugin_video_is)); );
+		
+		set(plugin[time_bar].onloaded, refresh_time_bar(%1));
+		setplaypausecrop(get(plugin[time_bar].plugin_video_is));
+		set(hotspot[%1].onvideocomplete, pause(); seek(0); setplaypausecrop(get(plugin[time_bar].plugin_video_is)););
+		<!--set(hotspot[%1].onclick, play(); setplaypausecrop(get(plugin[time_bar].plugin_video_is)););-->
+	</action>
+	
+	<action name="refresh_time_bar">
+		if(plugin[time_bar].loaded,
+			setplaypausecrop(get(plugin[time_bar].plugin_video_is));
+			set(videotype, get(videotype));
+			if(is_video_hotspot,
+				div(temp,plugin[time_bar].pixelwidth,hotspot[%1].totaltime);
+				mul(temp,temp,hotspot[%1].time);
+			,
+				div(temp,plugin[time_bar].pixelwidth,plugin[%1].totaltime);
+				mul(temp,temp,plugin[%1].time);
+			);
+			if(temp GE plugin[time_bar].pixelwidth,copy(temp,plugin[time_bar].pixelwidth));
+			if(temp LT 1,set(temp,1));
+			set(plugin[time_].width,get(temp));
+			sub(temp1,plugin[time_bar].pixelwidth,plugin[time_seek].pixelwidth);
+			if(temp GE temp1,set(temp,get(temp1)));
+			ifnot(seek_dragging,set(plugin[time_seek].x,get(temp)));
+			if(is_video_hotspot,
+				div(temp,plugin[time_bar].pixelwidth,hotspot[%1].totalbytes);
+				mul(temp,temp,hotspot[%1].loadedbytes);
+			,
+				div(temp,plugin[time_bar].pixelwidth,plugin[%1].totalbytes);
+				mul(temp,temp,plugin[%1].loadedbytes);
+			);
+			if(temp GE plugin[time_bar].pixelwidth,copy(temp,plugin[time_bar].pixelwidth));
+			if(temp LT 1,set(temp,1));
+			set(plugin[loadedbytes_].width,get(temp));;
+			delayedcall(0.1,refresh_time_bar(%1));
+			);
+	</action>
+	
+	<action name="get_mouse_offset">	
+		set(inside_area,true);
+		set(parents_X,0);
+		
+		check_for_parents(%1);		
+		
+		<!-- mouse_x_offset -->
+		if(inside_area,
+			
+			get_parents_X(get(parents_return),area.pixelwidth);
+			sub(mouse_x_offset, mouse.x, parents_X);
+			,
+			
+			get_parents_X(get(parents_return),stagewidth);
+			sub(mouse_x_offset, mouse.stagex, parents_X);
+			);
+			
+		
+		if(is_video_hotspot, div(temp,hotspot[%2].totaltime,plugin[time_bar].pixelwidth);, div(temp,plugin[%2].totaltime,plugin[time_bar].pixelwidth););
+		mul(temp,temp,mouse_x_offset);
+		roundval(temp,1);
+		if(temp LT 1,set(temp,0));
+	</action>
+	
+	<action name="check_for_parents">
+		set(parents_return,%1);
+		if(plugin[%1].edge === null, copy(plugin[%1].edge,  plugin[%1].align););
+		ifnot(plugin[%1].parent === null ,
+			if(plugin[%1].parent == stage, set(inside_area,false););
+			if(plugin[%1].parent == bglayer, set(inside_area,false));
+			if(plugin[%1].parent == '',set(plugin[%1].parent,null));
+			ifnot(plugin[%1].parent == null,
+				ifnot(plugin[%1].parent == stage,
+					ifnot(plugin[%1].parent == bglayer,
+						<!-- the plugin[time_bar]  has a parent -->
+						copy(parent_is,plugin[%1].parent);
+						get_parents_X(%1,get(plugin[%parent_is].pixelwidth),get(plugin[%1].parent));
+						);
+					);
+				);
+			);
+	</action>
+	
+	<action name="get_parents_X">
+		if(plugin[%1].align === null		, offset_case0(%1,%2) );
+		if(plugin[%1].align == lefttop		, offset_case1(%1,%2) );
+		if(plugin[%1].align == left			, offset_case1(%1,%2) );
+		if(plugin[%1].align == leftbottom	, offset_case1(%1,%2) );
+		if(plugin[%1].align == top			, offset_case2(%1,%2) );
+		if(plugin[%1].align == center		, offset_case2(%1,%2) );
+		if(plugin[%1].align == bottom		, offset_case2(%1,%2) );
+		if(plugin[%1].align == righttop		, offset_case3(%1,%2) );
+		if(plugin[%1].align == right		, offset_case3(%1,%2) );
+		if(plugin[%1].align == rightbottom	, offset_case3(%1,%2) );
+		if(%3 != null , check_for_parents(%3) );
+	</action>
+	
+	<action name="offset_case0">
+		//trace('*** nothing to do as there is no alignement in this case and x is not taken in account !!!');
+	</action>
+	
+	<action name="offset_case1">
+		copy(align_offset,plugin[%1].x);		
+		edge_correction(%1);
+	</action>
+	
+	<action name="offset_case2">
+		div(half_pixelwidth, %2, 2);
+		add(align_offset, half_pixelwidth, plugin[%1].x);
+		edge_correction(%1);
+	</action>
+	
+	<action name="offset_case3">
+		sub(align_offset, %2, plugin[%1].x);
+		edge_correction(%1);
+	</action>
+	
+	<action name="edge_correction">
+		if(plugin[%1].edge == righttop		, sub(align_offset, plugin[%1].pixelwidth); );
+		if(plugin[%1].edge == right			, sub(align_offset, plugin[%1].pixelwidth); );
+		if(plugin[%1].edge == rightbottom	, sub(align_offset, plugin[%1].pixelwidth); );
+		if(plugin[%1].edge == top		, div(half_plugin_pixelwidth, plugin[%1].pixelwidth, 2); sub(align_offset, half_plugin_pixelwidth); );
+		if(plugin[%1].edge == center	, div(half_plugin_pixelwidth, plugin[%1].pixelwidth, 2); sub(align_offset, half_plugin_pixelwidth); );
+		if(plugin[%1].edge == bottom	, div(half_plugin_pixelwidth, plugin[%1].pixelwidth, 2); sub(align_offset, half_plugin_pixelwidth); );
+		
+		add(parents_X,align_offset);
+	</action>
+	
+	<action name="getseek">
+		get_mouse_offset( time_bar , get(plugin[time_bar].plugin_video_is ));
+		if(is_video_hotspot, txtadd(call_cmd,'hotspot[',get(plugin[time_bar].plugin_video_is),'].seek(get(temp))');, txtadd(call_cmd,'plugin[',get(plugin[time_bar].plugin_video_is),'].seek(get(temp))'););
+		call_cmd();
+	</action>
+	
+	<action name="get_time">
+		get_mouse_offset( time_bar , get(plugin[time_bar].plugin_video_is ));
+		copy(temps,temp);
+		roundval(temps);
+		if(temps GE 60,
+			div(min,temps,60); copy(temp_min,min); roundval(min);
+			if(min GT temp_min, sub(min,1););
+			mod(cur_hlookat,temps,60);
+			if(min LT 10,
+				txtadd(minuts,0,get(min));
+				,
+				copy(minuts,min);
+				);
+			,
+			set(minuts,'00');
+			);
+		mul(temp,minuts,60);
+		sub(seconds,temps,temp);
+		if(seconds LT 10, txtadd(seconds,0,get(seconds)));
+		txtadd(temps,get(minuts),:,get(seconds));
+		txtadd(temps,[textformat leftmargin='4' rightmargin='4'],get(minuts),:,get(seconds),[/textformat]);
+		txtadd(call_cmd,"showtext( ",get(temps)," )");
+		call_cmd();
+	</action>
+
+	<action name="startdragingslider">
+		get_mouse_offset( time_bar , get(plugin[time_bar].plugin_video_is ));
+		
+		set(seek_dragging,true);
+		dragslider(time_bar);
+	</action>
+
+	<action name="stopdragingslider">
+		set(seek_dragging, false);
+	</action>
+
+	<action name="dragslider">
+		if(seek_dragging,
+			div(temp,plugin[time_seek].pixelwidth,2);
+			sub(xpos, mouse_x_offset, temp); 
+			sub(xmax, plugin[%1].pixelwidth, plugin[time_seek].pixelwidth);
+			if(xpos LT 0, set(xpos,0));
+			if(xpos GT xmax, copy(xpos,xmax));
+			copy(plugin[time_seek].x, xpos);
+			
+			delayedcall(0.01, dragslider(%1) );
+			);
+	</action>
+
+	<action name="erase_time_bar">
+		removeplugin(time_bar);
+		removeplugin(loadedbytes_);
+		removeplugin(time_);
+		removeplugin(time_seek);
+	</action>
+
+</krpano>

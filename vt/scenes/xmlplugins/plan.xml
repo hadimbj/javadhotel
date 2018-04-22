@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<krpano>
+
+	<include url="planpoints.xml" />
+
+  <!--***********************************************************************************************-->
+	<plugin name="b2button" style="floor_button_style" crop="00|000|200|40" x="00" y="-200" relativeplan="b2plan" />
+	<plugin name="gfbutton" style="floor_button_style" crop="00|040|200|40" x="00" y="-160" relativeplan="gfplan" />
+	<plugin name="rfbutton" style="floor_button_style" crop="00|080|200|40" x="00" y="-120" relativeplan="rfplan" />
+	<plugin name="f1button" style="floor_button_style" crop="00|120|200|40" x="00" y="-80" relativeplan="f1plan" />
+	<plugin name="f2button" style="floor_button_style" crop="00|160|200|40" x="00" y="-40" relativeplan="f2plan" />
+	<plugin name="f3button" style="floor_button_style" crop="00|200|200|40" x="00" y="000" relativeplan="f3plan" />
+	<plugin name="f4button" style="floor_button_style" crop="00|240|200|40" x="00" y="+40" relativeplan="f4plan" />
+	<plugin name="f5button" style="floor_button_style" crop="00|280|200|40" x="00" y="+80" relativeplan="f5plan" />
+	<plugin name="f6button" style="floor_button_style" crop="00|320|200|40" x="00" y="+120" relativeplan="f6plan" />
+	<plugin name="f7button" style="floor_button_style" crop="00|360|200|40" x="00" y="+160" relativeplan="f7plan" />
+	<plugin name="f8button" style="floor_button_style" crop="00|400|200|40" x="00" y="+200" relativeplan="f8plan" >
+		<plugin name="activeplanindicator" url="%SWFPATH%/skin/activeplanindicator.png" width="100%" height="100%" scale9grid="10|10|80|20" />
+	</plugin>
+
+
+<plugin name="b2plan" url="" style="plans_style" />
+<plugin name="gfplan" url="" style="plans_style" />
+<plugin name="rfplan" url="" style="plans_style" />
+<plugin name="f1plan" url="" style="plans_style" />
+<plugin name="f2plan" url="" style="plans_style" />
+<plugin name="f3plan" url="" style="plans_style" />
+<plugin name="f4plan" url="" style="plans_style" />
+<plugin name="f5plan" url="" style="plans_style" />
+<plugin name="f6plan" url="" style="plans_style" />
+<plugin name="f7plan" url="" style="plans_style" />
+<plugin name="f8plan" url="" style="plans_style" />
+
+
+<!--   طبقات-->
+<style  name="lppStyle" 
+			   flashactiveurl="%SWFPATH%/skin\mappointactive.png" 
+			   html5activeurl="%SWFPATH%/skin/mappointactive.png" 
+			   keep="true" 
+			   align="center" 
+			   edge="center"
+			   zorder="2"
+			   onover="trace('lpp name==',get(name));"
+			   onhover="subtxt(tempshowtext,name,4,10); show_text_lpp(get(tempshowtext)); "
+			   onclick="subtxt(tempshowtext,name,4,10); txtadd(tempshowtext,'scene',get(tempshowtext));   skin_loadscene(get(tempshowtext), BLEND(1));	if(layer[skin_plan_container].state, delayedcall(1.2, skin_showcontent_container(skin_plan_container, false););	);" 
+			/>
+					  
+<style  name="lppVideoStyle" 
+			   url="%SWFPATH%/skin\mapvideopoint.png" 
+			   alturl="%SWFPATH%/skin\mapvideopoint.png" 
+			   flashactiveurl="%SWFPATH%/skin\mapvideopointactive.png" 
+			   html5activeurl="%SWFPATH%/skin\mapvideopointactive.png" 
+			   keep="true" 
+			   align="center" 
+			   edge="center"
+			   zorder="2"
+			   onover="trace('lpp name==',get(name));"
+			   onhover="subtxt(tempshowtext,name,4,10); show_text_lpp(get(tempshowtext)); "
+			   onclick="subtxt(tempshowtext,name,4,10); txtadd(tempshowtext,'scene',get(tempshowtext));   loadscene(get(tempshowtext), null, MERGE, BLEND(1));	if(layer[skin_plan_container].state, delayedcall(1.2, skin_showcontent_container(skin_plan_container, false););	);" 
+			          />
+					  
+					  
+  <action name="show_text_lpp">
+				showtext(get(maptxt-%1),get(langtextstyle));
+ </action>
+		
+			
+<style  name="plans_style" 
+         		keep="true"
+				align="top"	
+				edge="top"
+         		parent="layer[skin_plan_plans_container]"
+				scale="1" 
+				scalechildren="false" 
+         		visible="false" 
+				enabled="true" 
+				handcursor="false" 
+        		zorder="1"
+         		alpha="0.0"
+				autoalpha="true"
+				oy="%"
+				x="-50%"
+				isloaded="false"
+				onloaded="set(isloaded, true)"
+				
+        />
+		
+<style  name="floor_button_style" 
+				url="%SWFPATH%/skin/floorbuttons.png"
+				align="right" visible="true" enabled="true" handcursor="true" alpha="0.80"
+				zorder="2" 
+				onclick="toggleplan(get(currfloorplan), get(relativeplan));"
+				parent="layer[skin_plan]"
+				keep="true" 
+        />
+
+	<action name="zoomplan" >
+		if(%2 LT 0
+		,
+			div(plugin[get(activeplan)].scale, 1.1);
+			trace();
+		,
+			mul(plugin[get(activeplan)].scale, 1.1);
+		);
+		mul(finalwidth, plugin[get(activeplan)].imagewidth, plugin[get(activeplan)].scale );
+		mul(finalheight, plugin[get(activeplan)].imageheight, plugin[get(activeplan)].scale );
+		set(layer[skin_plan_plans_container].width, get(finalwidth)); 
+		set(layer[skin_plan_plans_container].height, get(finalheight));
+	</action>
+
+</krpano>

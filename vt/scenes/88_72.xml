@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<krpano>
+	  <view hlookat="0" vlookat="0" fov="120" />
+	  <include url="88_00_pano/%$platform%/88_00_img_%$platform%.xml" />
+	  <include url="%SWFPATH%\commons\base_p.xml" />
+  <!--****************************************************************-->
+	<action name="start">
+		initiatepano(88_72);
+		activatespot(LPP-88_72,0);
+	</action>
+  <!--****************************************************************-->
+</krpano>

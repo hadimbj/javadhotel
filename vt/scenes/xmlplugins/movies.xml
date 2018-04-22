@@ -1,0 +1,85 @@
+
+
+<plugin name="video_button" 
+        url="%SWFPATH%/skin/video_button.png" 
+		alpha="0"
+        keep="true"
+        align="bottomright"
+		edge="bottomright"
+		crop="0|0|49|50"
+		onovercrop="0|50|49|50"
+		ondowncrop="0|100|49|50"
+		scale="1"
+		onclick="showmovie(1);"
+		visible="true"
+		scalechildren="true"
+		onhover=""
+		child="true"
+		parent=""
+		handcursor="false"
+		zorder="99" 
+		onloaded="  delayedcall(0.4, tween(alpha,1,1); );"
+/>
+
+
+  		  <!--************************************************************************************-->	
+
+<plugin name="sinimovie" 
+        url="%SWFPATH%/skin/sinimovie.png" 
+        capture="false"
+		keep="true"
+        align="center"
+		edge="center"
+        x=""
+        y=""
+		crop=""
+		rotate=""
+		width="720"
+		height="480"
+		scale="1"
+		onclick=""
+		parent=""
+		alpha="0"
+		autoalpha="true"
+		onloaded="set(alpha,0)"
+		zorder="100"
+/>	
+<action name="create_close_button">
+		addplugin(%1_close_button);
+		set(plugin[%1_close_button].url,'%SWFPATH%/%$jni_tour_url%/attachfiles/pic/panelclose.png');
+		set(plugin[%1_close_button].align,rightttop);
+		set(plugin[%1_close_button].edge,lefttop);
+		set(plugin[%1_close_button].zorder,99);
+		set(plugin[%1_close_button].scale,1);
+		set(plugin[%1_close_button].onclick,'tween(plugin[%1].alpha,0,0.3); plugin[videoinfo].closevideo(); ');
+		set(plugin[%1_close_button].parent,%1);
+		set(plugin[%1_close_button].keep,true);
+					
+</action>
+
+
+<action name="showmovie">
+			tween(plugin[sinimovie].alpha,1 );
+			create_close_button(sinimovie);
+			plugin[videoinfo].playvideo('%SWFPATH%/%$jni_tour_url%/attachfiles/video/%1.flv');
+	</action>
+
+<plugin name="videoinfo"
+        url="%SWFPATH%/plugins/videoplayer.swf"
+        videourl=""
+		width="96%"    height="94%"
+        align="center" x="0" y="0"
+        pausedonstart="false"
+        loop="false"
+        volume="1.0"
+        buffertime="0.1"
+        updateeveryframe="true"
+        onvideoready=""
+        onvideopaused=""
+        onvideocomplete="tween(plugin[sinimovie].alpha,0,0.3); plugin[videoinfo].closevideo();"
+        onunsupported=""
+		parent="sinimovie"
+		keep="true"
+		
+        />	
+	

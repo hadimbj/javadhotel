@@ -1,0 +1,5 @@
+<krpano bgcolor="0xFFFFFF">
+	<control zoomtocursor="true"   zoomoutcursor="true"    mousetype="moveto"    mousespeed="10.0"    />	
+	<view fovtype="DFOV" fovmax="120" fovmin="40"  />
+	<progress showload="none" showwait="none" showreloads="false" parent="" />
+</krpano>

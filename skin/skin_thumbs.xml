@@ -1,0 +1,174 @@
+<krpano>
+	<action name="skin_addthumbs">
+		set(activethumbgroup, '');
+		
+		set(thumbgroup_count, 0);
+		
+		for(set(i,0), i LT scene.count, inc(i)
+		,
+			process_scene_thumb(get(i), get(scene[get(i)].name), get(scene[get(i)].group_id));
+		);
+	</action>
+	
+	<action name="skin_set_thumbsurl">
+		for(set(i,0), i LT scene.count, inc(i)
+		,
+		
+			set(thumb_name, calc:"skin_thumb_" + i);
+			set(layer[get(thumb_name)].url,get(scene[get(i)].thumburl));
+		);
+
+		set(plugin[aboutusimage].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/aboutus_%$lng%.jpg");
+		set(plugin[b2plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/b2map.png");
+		set(plugin[gfplan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/gfmap.png");
+		set(plugin[rfplan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/rfmap.png");
+		set(plugin[f1plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f1map.png");
+		set(plugin[f2plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f2map.png");
+		set(plugin[f3plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f2map.png");
+		set(plugin[f4plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f2map.png");
+		set(plugin[f5plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f5map.png");
+		set(plugin[f6plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f6map.png");
+		set(plugin[f7plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f6map.png");
+		set(plugin[f8plan].url,"%SWFPATH%\%$jni_tour_url%\attachfiles/pic/f6map.png");
+	</action>
+	
+	<action name="process_scene_thumb" scope="local" args="scene_index, scene_name, thumb_group_id">
+		<!-- %1:Scene.index, %2:scene.name, %3:thumb_group_id -->
+		<!-- thumbgroup_count, thumbgroup_%3_created, thumbgroup_%3_thumbcount, thumbgroup_%3_parent, layer[thumbgroup_%3_parent].groupindex -->
+		ifnot(layer[thumbgroup_%3_parent].created
+		,
+			add_thumbgroup(get(scene_index), get(scene_name), get(thumb_group_id));
+		);
+		if(scene[%1].group_mainthumb
+		,
+			set(layer[thumbgroup_%3_parent].bgcolor, get(scene[%1].bgcolor));
+		);
+		
+		add_thumb(get(scene_index), get(scene_name), get(thumb_group_id), get(scene[%1].id));
+		
+	</action>
+	
+	<action name="add_thumbgroup">
+		set(thumb_group_id, %3);
+		set(thumbgroup_btn_name, thumbgroup_%3_button);
+		addlayer(thumbgroup_btn_name);
+		set(layer[get(thumbgroup_btn_name)],
+			url="%SWFPATH%/skin/buttonbg.png",
+			scale9grid="10|10|100|20",
+			keep=true,
+			align=topright,
+			width=118,
+			height=30,
+			x=calc(thumbgroup_count * 120),
+			parent=skin_thumbgroup_buttons,
+			group_id=get(thumb_group_id),
+			onclick="activate_thumbgroup(%3);"
+		);
+		set(thumbgroup_btn_text, thumbgroup_%3_button_text);
+		addlayer(get(thumbgroup_btn_text));
+		set(layer[get(thumbgroup_btn_text)],
+			url="%SWFPATH%/skin/thumbgroupbuttons.png",
+			crop=calc("0|" + thumbgroup_count * 40+ "|150|40"),
+			keep=true,
+			align=center,
+			width=112.5,
+			height=30,
+			parent=get(thumbgroup_btn_name),
+			enabled=false
+		);
+	
+		set(thumbgroup_parent_name, thumbgroup_%3_parent);
+		addlayer(get(thumbgroup_parent_name));
+		set(layer[get(thumbgroup_parent_name)],
+			type=container,
+			visible=false,
+			enabled=false,
+			bgalpha=0.2,
+			keep=true,
+			parent=skin_thumbs,
+			align=right,
+			x=0,
+			y=0,
+			width=0,
+			height=get(skin_settings.thumbs_height),
+			group_id=get(thumb_group_id),
+			created=true,
+			thumbcount=0,
+		);
+
+		inc(thumbgroup_count);
+		set(layer[skin_thumbgroup_buttons].width, calc(thumbgroup_count * 120));
+	</action>
+	
+	<action name="add_thumb" scope="local" args="scene_index, scene_name, thumb_group_id">
+		copy(thumbwidth, skin_settings.thumbs_width);
+		copy(thumbheight, skin_settings.thumbs_height);
+		copy(thumbpadding, skin_settings.thumbs_padding);
+		copy(thumbcrop, skin_settings.thumbs_crop);
+
+		calc(thumbxoffset, thumbwidth + thumbpadding);
+		calc(thumbxcenter, thumbxoffset * 0.5);
+		calc(thumbbarwidth, thumbxoffset * scene.count + thumbpadding);
+		calc(thumbbarheight, thumbpadding + thumbheight + thumbpadding);
+
+		set(thumb_name, calc:"skin_thumb_" + scene_index);
+		set(thumbgroupname, thumbgroup_%3_parent);
+		set(thumbgroup_thumbcount, get(layer[get(thumbgroupname)].thumbcount));
+		addlayer(get(thumb_name));
+		set(layer[get(thumb_name)],
+					keep=true,
+					parent=calc("thumbgroup_" + thumb_group_id + "_parent"),
+					align='right',
+					width=get(skin_settings.thumbs_width),
+					height=get(skin_settings.thumbs_height),
+					linkedscene=get(scene[get(scene_index)].name),
+					linkedsceneindex=get(scene_index),
+					x=calc(thumbgroup_thumbcount * (skin_settings.thumbs_width + skin_settings.thumbs_padding) + (skin_settings.thumbs_padding/2)),
+					onclick=thumb_onclick(get(linkedsceneindex));,
+					zorder=1
+					
+				);
+
+		set(scene[%1], 
+			thumbx=calc(thumbpadding + layer[get(thumbgroupname)].thumbcount * thumbxoffset + thumbxcenter),
+			thumby=get(thumbpadding),
+			title=get(maptxt-%4)
+		);
+		inc(layer[get(thumbgroupname)].thumbcount);
+		set(layer[thumbgroup_%3_parent].width, calc:layer[get(thumbgroupname)].thumbcount * (skin_settings.thumbs_width + skin_settings.thumbs_padding));
+		
+		if(skin_settings.thumbs_text,
+			addlayer(skin_thumbtext_%1);
+			layer[skin_thumbtext_%1].loadstyle(skin_thumbtext_style);
+			set(layer[skin_thumbtext_%1], keep=true, parent=skin_thumb_%1, html=get(scene[%1].title) );
+		);
+	</action>
+	
+	<action name="thumb_onclick">
+		set(layer[skin_thumbborder].parent, skin_thumb_%1);
+		loadscene(get(layer[skin_thumb_%1].linkedscene), null, MERGE, BLEND(0.5));
+	</action>
+	
+	<action name="activate_thumbgroup">
+		set(target_group_name, thumbgroup_%1_parent);
+		if(activethumbgroup == ''
+		,
+			set(layer[get(target_group_name)].visible, true);
+			set(layer[get(target_group_name)].enabled, true);
+			set(layer[skin_thumbs].width, get(layer[get(target_group_name)].width));
+			
+			set(activethumbgroup, get(target_group_name));
+		,
+			if(activethumbgroup != target_group_name
+			,
+				set(layer[get(activethumbgroup)].visible, false);
+				set(layer[get(activethumbgroup)].enabled, false);
+				set(layer[get(target_group_name)].visible, true);
+				set(layer[get(target_group_name)].enabled, true);
+				set(layer[skin_thumbs].width, get(layer[get(target_group_name)].width));
+				set(activethumbgroup, get(target_group_name));
+			);
+		);
+	</action>
+
+</krpano>

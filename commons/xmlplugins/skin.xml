@@ -1,0 +1,51 @@
+<krpano>
+
+<!--**********************MainTab******************************-->
+calc:'%CURRENTXML%/skin/' + settings.image1
+<plugin name="helppic" 
+        url="calc:'%SWFPATH%\skin\help_istouch_' + device.touch + '.png'" 
+        keep="true"
+        align="center"
+		edge="center"
+		scale="1"
+		onclick="ToggleHelpPic();"
+		visible="false"
+		alpha="0"
+		autoalpha="true"
+/>
+
+<!--
+
+<plugin name="scene_name" 
+        url="%SWFPATH%/plugins/textfield.swf" 
+        keep="true"
+        align="bottom"
+		edge="top"
+        x="0"
+        oy="-15%"
+		html="[p][b]10 000[br][/p]"
+		background="false"
+		css="p{color:#FFFFFF;font-family:B Koodak;font-size:17px;margin-left:0;margin-right:0;text-align:center;}"
+		visible="false"
+		handcursor="false"
+		zorder="100" 
+		onloaded=""
+		children="false"
+		effect="glow(0xFFFFFF,0.7,4,2);glow(0x000000,1,4,2);dropshadow(3,45,0x000000,2,0.6);"
+		enabled="true"
+		capture="false"
+		autosize="center"
+		onover="tween(alpha,1)"
+		onout="tween(alpha,0.8)"
+		parent="top_bar"
+		
+/>
+
+-->
+
+<action name="showtexths" >
+
+ifnot(maptxt-%1===null, showtext(get(maptxt-%1),get(langtextstyle));   );
+
+</action>
+</krpano>

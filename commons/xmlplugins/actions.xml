@@ -1,0 +1,58 @@
+<krpano>
+
+<action name="updatemask">
+	<!--set(plugin[radar].mask, mapmask);-->
+</action>
+
+
+
+	<action name="ToggleHelpPic">
+		if(%1!=null
+			, if(%1
+				, set(plugin[helppic].switch,false);
+				, set(plugin[helppic].switch,true);
+			);
+		);
+		
+		if(plugin[helppic].switch
+			,
+			 set(plugin[helppic].switch,false);
+			 tween(plugin[helppic].alpha, 0, 0.5);
+			,
+			 set(plugin[helppic].switch,true);
+			 set(plugin[helppic].opened,true);
+			tween(plugin[helppic].alpha, 1, 0.5);
+		);	
+	</action>
+
+
+<action name="calc_pos_from_hfov_yaw_pitch_roll">
+  div(hfov,%1,57.295779);
+  div(yaw,%2,-57.295779);
+  div(pitch,%3,57.295779);
+  div(roll,%4,-57.295779);
+  mul(hfov,0.5);Math.tan(hfov);mul(width,hfov,1000);set(height,'prop');
+  Math.cos(ch,yaw);Math.sin(sh,yaw);
+  Math.cos(ca,pitch);Math.sin(sa,pitch);
+  Math.cos(cb,roll);Math.sin(sb,roll);
+  mul(m0,ca,ch);
+  mul(tmp,cb,sa);mul(tmp,ch);mul(tmp2,sb,sh);add(m3,tmp,tmp2);
+  mul(m4,cb,ca);
+  mul(tmp,cb,sa);mul(tmp,sh);mul(tmp2,sb,ch);sub(m5n,tmp,tmp2);mul(m5n,-1);
+  mul(tmp,sb,sa);mul(tmp,ch);mul(tmp2,cb,sh);sub(m6n,tmp,tmp2);mul(m6n,-1);
+  Math.atan2(yaw,m6n,m0);
+  Math.atan2(roll,m5n,m4);
+  Math.asin(pitch,m3);
+  mul(ath,yaw,57.295779);
+  mul(atv,pitch,57.295779);
+  mul(rotate,roll,57.295779);
+</action>
+
+<action name="setlang">
+
+if(language=='en', setlangtoen(););
+if(language=='fa', setlangtofa(););
+
+
+</action>
+</krpano>

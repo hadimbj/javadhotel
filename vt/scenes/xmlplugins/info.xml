@@ -1,0 +1,18 @@
+<krpano>
+	<plugin name="infoimage" url="%SWFPATH%\%$jni_tour_url%\attachfiles/pic/info_%$lng%.png" keep="true"
+				align="top"	
+				edge="top"
+         		parent="skin_info"
+				scale="1" 
+				scalechildren="false" 
+         		visible="true" 
+				enabled="true" 
+				handcursor="false" 
+        		zorder="1"
+         		alpha="1" 
+				oy="0"
+				x="0"
+				isloaded="false"
+				onloaded="resetsize(); set(isloaded, true); initcontentsize(infoimage); "
+ />
+</krpano>

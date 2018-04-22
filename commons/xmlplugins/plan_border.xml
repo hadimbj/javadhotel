@@ -1,0 +1,74 @@
+<krpano>
+	<plugin name="activespot" url="%SWFPATH%/skin/mappointactive.png" keep="true" align="center" edge="center" visible="false" zorder="3" parent="stage"/>
+
+	<action name="initmapsize">
+	if(plugin[%1].isloaded
+	,
+		div(hratio,get(stageheight), get(plugin[%1].height));
+		div(wratio,get(stagewidth), get(plugin[%1].width));
+		if(hratio LT wratio
+			, set(planratio, get(hratio));
+			, set(planratio, get(wratio));
+		);
+		mul(plugin[%1].scale, get(planratio), 0.9);
+		mul(finalwidth, plugin[%1].imagewidth, plugin[%1].scale );
+		mul(finalheight, plugin[%1].imageheight, plugin[%1].scale );
+		set(layer[skin_plan_plans_container].width, get(finalwidth)); 
+		set(layer[skin_plan_plans_container].height, get(finalheight));
+		
+	,
+		delayedcall(0.1, initmapsize(%1););
+	);
+	</action>
+
+	<action name="activatespot">
+		toggleplan(get(plugin[get(currpanomappoint)].parent), get(plugin[%1].parent));
+
+		if(plugin[activespot].parent!=null
+			, set(plugin[get(plugin[activespot].parent)].crop, '');
+		);
+		if(device.flash, set(plugin[activespot].url, get(plugin[%1].flashactiveurl)););
+		if(device.html5, set(plugin[activespot].url, get(plugin[%1].html5activeurl)););
+		set(plugin[activespot].parent, %1);
+		set(plugin[activespot].alpha, 0);
+		set(plugin[activespot].scale, 8);
+		tween(plugin[activespot].alpha, 1);
+		tween(plugin[activespot].scale, 1.5);
+
+		set(plugin[activespot].visible, true);
+
+		if(currpanomappoint!=%1, set(currpanomappoint, %1););
+		
+	</action>
+	
+	<action name="toggleplan">
+		if(%1 != null
+		,
+			if(
+				%1 != %2
+			,
+				trace(currpanis, get(currpanomappoint));
+				tween(plugin[%1].alpha, 0);
+				tween(plugin[%1].x, -50%);
+				
+				tween(plugin[%2].alpha, 0.8);
+				tween(plugin[%2].x, 0);
+				initmapsize(%2);
+			);
+		,
+			tween(plugin[%2].alpha, 0.8);
+			tween(plugin[%2].x, 0);
+			initmapsize(%2);
+		);
+		set(currfloorplan, %2);
+		if(currfloorplan !== null
+		,
+			subtxt(planbuttonname, get(currfloorplan), 0, 2);
+			txtadd(planbuttonname, 'button');
+			set(plugin[activeplanindicator].parent, get(planbuttonname));
+			set(plugin[activeplanindicator].visible, true);
+			
+		);
+		set(activeplan,%2);
+	</action>
+</krpano>

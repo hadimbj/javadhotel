@@ -1,0 +1,16 @@
+<krpano version="1.0.8"  bgcolor="0xFFFFFF"   onstart="set(jni_tour_url,'vt'); set(platform,'web'); set(lng,'fa'); delayedcall(0.1,loadpano('%SWFPATH%\%$jni_tour_url%\scenes\start.xml',null, MERGE, blend(1)););"  >
+
+<progress showload="none"  showwait="none"   showreloads="none"  />
+
+<!--hotspot name="nadirlogo" keep="true"
+	         url="%SWFPATH%\skin\nadir.png"
+	         ath="0"
+	         atv="90"
+	         distorted="true"
+	         scale="1.4"
+	         rotate="0.0"
+	         enabled="false"
+			 alpha="1"
+	         /-->
+			 
+</krpano>

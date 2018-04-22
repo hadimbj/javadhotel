@@ -1,0 +1,55 @@
+<krpano version="1.0.8"	logkey="true"	idletime="30000000000"  showerrors="false"   debugmode="false" onstart="start();">
+
+ <progress showload="none"  showwait="none"   showreloads="none"  />
+ 
+  <!--include url="%SWFPATH%\commons\xmlplugins/intro.xml" /-->
+  <!--include url="%SWFPATH%\commons\xmlplugins/timebar.xml" /-->
+  <include url="%SWFPATH%\commons\xmlplugins/plan_border.xml" />
+  <include url="%SWFPATH%/skin/vtourskin.xml" />
+  <include url="%SWFPATH%/skin/skin_thumbs.xml" />
+  <include url="%SWFPATH%\commons\xmlplugins/actions.xml" />
+  <!--include url="%SWFPATH%\commons\xmlplugins/console.xml" /-->
+  
+  <!--include url="%SWFPATH%\commons\xmlplugins/getlink.xml" /-->
+  <include url="%SWFPATH%\commons\xmlplugins/import.xml" />
+  <include url="%SWFPATH%\commons\xmlplugins/skin.xml" />
+
+  <include url="xmlplugins/plan.xml" />
+  <include url="xmlplugins/language.xml" />
+  <include url="xmlplugins/info.xml" />
+  <include url="xmlplugins/aboutus.xml" />
+
+	<events
+		onxmlcomplete="if(lng==fa, setlangtofa();); if(lng==en, setlangtoen();); if(toureditormode, delayedcall(1, js(CSharp_Init_Form_Data(););););"
+		onpreviewcomplete="set(xmlcompletelyloaded, true); delayedcall(2, set(events.onxmlcomplete,'start();'); ); if(language==fa,setlangtofa();,setlangtoen(); ); start();"
+		onloadcomplete=""
+		onloaderror=""
+		onkeydown=""
+		onkeyup=""
+		onclick="ToggleHelpPic(false);"
+		onmousedown=" set(is_mouse_down, true); if(random_wandering_condition,plugin[auto_rotate].onclick(););"
+		onmouseup="set(is_mouse_down, false);"
+		onmousewheel=""
+		onidle="plugin[auto_rotate].onclick();"
+	/>	
+
+
+	<action name="start">
+	if(toureditormode, loadconsole(););
+
+		setlangtofa();
+		if(p===null
+		, 
+			set(jni_pano_url,'54_00');
+			set(p, scene54_00);
+		, 
+			trace(p==p);
+		);
+		skin_loadscene(get(p), BLEND(2));
+		<!--loadpano('%SWFPATH%\%$jni_tour_url%\scenes\%$jni_pano_url%.xml',get(viewlook), MERGE, BLEND(2));-->
+	</action>
+
+	<plugin name="soundinterface" url="%SWFPATH%/plugins/soundinterface.swf" alturl="%SWFPATH%/plugins/soundinterface.js" rootpath="%SWFPATH%" preload="true"  volume="1.0"   mute="false" />
+
+	<include url="scenes.xml" />
+</krpano>

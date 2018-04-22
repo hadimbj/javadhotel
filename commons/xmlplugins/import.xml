@@ -1,0 +1,65 @@
+<krpano>
+
+		<style name="hotspot_footprint_Style" devices="all"
+	         url="%SWFPATH%/skin/hotfootprint.swf"
+	         alturl="%SWFPATH%/skin/hotfootprint.png"
+	         keep="false"
+	         distorted="true"
+			 align="center"
+	         edge="center"
+			 enabled="true" 
+			 usecontentsize="false" 
+			 handcursor="true" 
+			 capture="true"
+			 width="72"
+			 height="600"
+ 	         zorder="10"
+			 ondown="if(toureditormode, draghotspot(); showtext(get(name)););"
+			 onhover="subtxt(tmp,get(name),11,4); showtexths(get(tmp));if(toureditormode, showtext(get(name)););"
+	         onclick="
+						if(toureditormode
+						,
+							js(CSharp_Navigation_Hotspot_Click(get(name)););
+						,
+							indexoftxt(view_param_pos1,get(look_az),',',0);  
+							subtxt(h,get(look_az),0,get(view_param_pos1)); 
+							inc(view_param_pos1);
+							indexoftxt(view_param_pos2,get(look_az),',',get(view_param_pos1));
+							sub(temp,view_param_pos2,view_param_pos1);
+							subtxt(v,'get(look_az)',get(view_param_pos1),get(temp)); 
+							inc(view_param_pos2);
+							subtxt(f,get(look_az),get(view_param_pos2),5); 
+
+							lookto(get(h),get(v),get(f));    
+
+							subtxt(tempurl,get(name),11,4);
+							txtadd(tempurl,'scene',get(tempurl)); 
+
+							indexoftxt(view_param_pos1,get(look_be),',',0);  
+							subtxt(h,get(look_be),0,get(view_param_pos1));
+							inc(view_param_pos1);
+							indexoftxt(view_param_pos2,get(look_be),',',get(view_param_pos1));
+							sub(temp,view_param_pos2,view_param_pos1);
+							subtxt(v,'get(look_be)',get(view_param_pos1),get(temp)); 
+							inc(view_param_pos2);
+							subtxt(f,get(look_be),get(view_param_pos2),5);
+							txtadd(viewlook, 'view.hlookat=',get(h));
+							loadscene(get(tempurl),get(viewlook),MERGE, BLEND(2));
+						);
+					"
+	         />
+
+<action name="initiatepano">
+
+	
+	set(sceneindex,%1);
+	txtadd(scenename,'scene',get(sceneindex));
+	txtadd(infoimageurl, '%SWFPATH%/%$jni_tour_url%/attachfiles/pic/infoimage.png');
+	<!--set(plugin[infoimage].url, get(infoimageurl));-->
+	txtadd(videoname, video, %1);
+	looktohotspot(get(videoname), 100, tween(linear,0) );
+</action>
+
+<control keycodesin="16,65,107" keycodesout="17,89,90,109" />
+
+</krpano>

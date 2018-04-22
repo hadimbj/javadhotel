@@ -1,0 +1,318 @@
+<krpano>
+	<!--layer name="new_thumb_parent_c" type="container"  bgcolor="0x999999" bgalpha="0.8" keep="true" align="top" width="100%" height="300" x="0" y="0" capture="false">
+		<layer name="skin_thumbss" url="%SWFPATH%/plugins/scrollarea.swf" alturl="%SWFPATH%/plugins/scrollarea.js"  bgcolor="0x999999" bgalpha="1" keep="true" align="center" width="100%" height="100%" x="0" y="0" capture="false"/>
+	</layer-->
+	
+	<action name="skin_addthumbs">
+		add(skin_settings.parentthumbs_totalwidth, get(skin_settings.parentthumbs_width), get(skin_settings.parentthumbs_padding));
+		add(skin_settings.parentthumbs_totalwidth, get(skin_settings.parentthumbs_padding));
+		add(skin_settings.parentthumbs_totalheight, get(skin_settings.parentthumbs_height), get(skin_settings.parentthumbs_padding));
+		add(skin_settings.parentthumbs_totalheight, get(skin_settings.parentthumbs_padding));
+		add(skin_settings.childthumbs_totalwidth, get(skin_settings.childthumbs_width), get(skin_settings.childthumbs_padding));
+		add(skin_settings.childthumbs_totalwidth, get(skin_settings.childthumbs_padding));
+		
+		set(layer[skin_thumbborder].width, get(skin_settings.childthumbs_width));
+		set(layer[skin_thumbborder].height, get(skin_settings.childthumbs_height));
+		set(layer[skin_thumbborder].scale, 1);
+
+		
+		set(activethumbgroup, '');
+		
+		set(thumbgroup_count, 0);
+		
+		for(set(i,0), i LT scene.count, inc(i)
+		,
+			process_scene_thumb(get(i), get(scene[get(i)].name), get(scene[get(i)].group));
+		);
+	</action>
+	
+	<action name="process_scene_thumb">
+		<!-- %1:Scene.index, %2:scene.name, %3:thumb_group_name -->
+		<!-- thumbgroup_count, thumbgroup_%3_created, thumbgroup_%3_thumbcount, thumbgroup_%3_parent, layer[thumbgroup_%3_parent].groupindex -->
+		ifnot(thumbgroup_%3_created
+		,
+			add_thumbgroup(%1, %2, %3);
+		);
+		if(scene[%1].group_mainthumb
+		,
+			set(layer[thumbgroup_%3_parent].bgcolor, get(scene[%1].bgcolor));
+			set(layer[thumbgroup_%3_parentthumb].url, get(scene[%1].thumburl));
+		);
+		
+		add_thumb(%1, %2, %3, get(scene[%1].id));
+		
+	</action>
+	
+	<action name="add_thumbgroup">
+		addlayer(thumbgroup_%3_parent);
+		set(layer[thumbgroup_%3_parent].type, container);
+		set(layer[thumbgroup_%3_parent].bgalpha, 0.2);
+		set(layer[thumbgroup_%3_parent].keep, true);
+		set(layer[thumbgroup_%3_parent].parent, 'skin_thumbs');
+		set(layer[thumbgroup_%3_parent].align, left);
+		set(layer[thumbgroup_%3_parent].width, get(skin_settings.parentthumbs_totalwidth));
+		set(layer[thumbgroup_%3_parent].height, get(skin_settings.parentthumbs_totalheight));
+		<!--add(skin_settings.parentthumbs_totalwidth, get(skin_settings.parentthumbs_width), get(skin_settings.parentthumbs_padding));-->
+		mul(thumbx, get(thumbgroup_count), get(skin_settings.parentthumbs_totalwidth));
+		set(layer[thumbgroup_%3_parent].x, get(thumbx));
+
+		addlayer(thumbgroup_%3_parentthumb);
+		set(layer[thumbgroup_%3_parentthumb].url, get(scene[%1].thumburl));
+		set(layer[thumbgroup_%3_parentthumb].keep, true);
+		set(layer[thumbgroup_%3_parentthumb].parent, thumbgroup_%3_parent);
+		set(layer[thumbgroup_%3_parentthumb].align, left);
+		set(layer[thumbgroup_%3_parentthumb].width, get(skin_settings.parentthumbs_width));
+		set(layer[thumbgroup_%3_parentthumb].height, get(skin_settings.parentthumbs_height));
+		<!--add(skin_settings.parentthumbs_totalwidth, get(skin_settings.parentthumbs_width), get(skin_settings.parentthumbs_padding));-->
+		set(layer[thumbgroup_%3_parentthumb].x, get(skin_settings.parentthumbs_padding));
+		set(layer[thumbgroup_%3_parentthumb].zorder, 2);
+		<!--set(layer[thumbgroup_%3_parentthumb].onclick, onclicktest(%1,%2,%3););-->
+		<!--trace(layer[thumbgroup_%3_parent].x, layer[thumbgroup_%3_parent].width,layer[thumbgroup_%3_parent].scale);
+
+		trace(thumbgroup_%3, '  ', 'created');-->
+		
+		addlayer(thumbgroup_%3_caption);
+		set(layer[thumbgroup_%3_caption].url, get(scene[%1].captionurl));
+		set(layer[thumbgroup_%3_caption].keep, true);
+		set(layer[thumbgroup_%3_caption].parent, thumbgroup_%3_parentthumb);
+		set(layer[thumbgroup_%3_caption].align, bottom);
+		set(layer[thumbgroup_%3_caption].y, 0);
+		set(layer[thumbgroup_%3_caption].enabled, false);
+		set(layer[thumbgroup_%3_caption].width, 100%);
+		set(layer[thumbgroup_%3_caption].height, PROP);
+		<!--add(skin_settings.parentthumbs_totalwidth, get(skin_settings.parentthumbs_width), get(skin_settings.parentthumbs_padding));-->
+		set(layer[thumbgroup_%3_caption].zorder, 2);
+
+		
+		set(layer[thumbgroup_%3_parentthumb].onclick, onclicktest(%1,%2,%3););
+		set(layer[thumbgroup_%3_parentthumb].onover, trace(get(name)););
+		
+		set(layer[thumbgroup_%3_parent].groupindex, get(thumbgroup_count));
+		
+		set(thumbgroup_%3_created, true);
+		set(thumbgroup_%3_thumbcount, 0);
+		set_thumbgroup_array(get(thumbgroup_count), thumbgroup_%3_parent);
+		inc(thumbgroup_count);
+	</action>
+	
+	<action name="add_thumb">
+		addlayer(skin_thumb_%1);
+		copy(layer[skin_thumb_%1].url, scene[%1].thumburl);
+		set(layer[skin_thumb_%1].keep, true);
+		set(layer[skin_thumb_%1].parent, 'thumbgroup_%3_parent');
+		set(layer[skin_thumb_%1].align, left);
+		set(layer[skin_thumb_%1].width, get(skin_settings.childthumbs_width));
+		set(layer[skin_thumb_%1].height, get(skin_settings.childthumbs_height));
+		set(layer[skin_thumb_%1].linkedscene, get(scene[get(i)].name));
+		set(layer[skin_thumb_%1].onclick, set(layer[skin_thumbborder].parent, skin_thumb_%1); loadscene(get(linkedscene), null, MERGE, BLEND(0.5)); );
+		set(layer[skin_thumb_%1].x, get(skin_settings.parentthumbs_padding));
+		set(layer[skin_thumb_%1].zorder, 1);
+		set(layer[skin_thumb_%1].onover, trace(get(name)););
+		set_thumbgroup_children_array(get(thumbgroup_%3_thumbcount), skin_thumb_%1, %3);
+		
+		mul(layer[skin_thumbs].width, get(thumbgroup_count), get(skin_settings.parentthumbs_totalwidth));
+		
+		set(scene[%1].title, get(maptxt-%4));
+		trace(maptxt-%4, 'XXX', get(maptxt-%4));
+
+		inc(thumbgroup_%3_thumbcount);
+	</action>
+	
+	<action name="set_thumbgroup_array">
+		set(thumbgroup_array_%1, %2);
+	</action>
+	
+	<action name="set_thumbgroup_children_array">
+		set(thumbgroup_%3_children_array_%1, %2);
+	</action>
+	
+	<action name="onclicktest">
+		<!-- thumbgroup_count, thumbgroup_%3_created, thumbgroup_%3_thumbcount, thumbgroup_%3_parent, layer[thumbgroup_%3_parent].groupindex -->
+		if(activethumbgroup == ''
+		,
+			expand_thumbgroup(%1, %2, %3);
+		,
+			if(activethumbgroup == %3
+			,
+				collapse_thumbgroup(%1, %2, %3);
+
+			,
+				collapse_thumbgroup(%1, %2, %3);
+				expand_thumbgroup(%1, %2, %3);
+			);
+		);
+	</action>
+	
+	<action name="expand_thumbgroup">
+		<!--add(skin_settings.childthumbs_totalwidth, get(skin_settings.childthumbs_width), get(skin_settings.childthumbs_padding));-->
+
+		mul(xoffset, thumbgroup_%3_thumbcount, get(skin_settings.childthumbs_totalwidth));
+		add(counter_start, get(layer[thumbgroup_%3_parent].groupindex), 1);
+		for(set(i, get(counter_start)), i LT thumbgroup_count, inc(i)
+		,
+			tweengroupparent(get(i), get(xoffset), %3);
+		);
+
+		for(set(i, 0), i LT thumbgroup_%3_thumbcount, inc(i)
+		,
+			tweengroupchildren(get(i), get(xoffset), %3);
+		);
+		set(activethumbgroup, %3);
+		set(activethumbgroupname, thumbgroup_%3_parent);
+		set(activethumbgroup_thumbcount, get(thumbgroup_%3_thumbcount));
+		set(activethumbgroup_index, get(layer[thumbgroup_%3_parent].groupindex));
+
+		mul(w1, get(thumbgroup_count), get(skin_settings.parentthumbs_totalwidth));
+		mul(w2, get(thumbgroup_%3_thumbcount), get(skin_settings.childthumbs_totalwidth));
+		add(w3, get(w1), get(w2));
+		add(w4, get(skin_settings.parentthumbs_totalwidth), get(w2));
+		tween(layer[skin_thumbs].width, get(w3));
+		tween(layer[thumbgroup_%3_parent].width, get(w4));
+		
+		delayedcall(0.25, layer[skin_thumbs].scrolltocenter(0,0););
+	</action>
+	
+	<action name="collapse_thumbgroup">
+		mul(xoffset, get(activethumbgroup_thumbcount), 0);
+		add(counter_start, get(activethumbgroup_index), 1);
+		for(set(i, get(counter_start)), i LT thumbgroup_count, inc(i)
+		,
+			tweengroupparentback(get(i), get(xoffset), get(activethumbgroup));
+		);
+		
+		for(set(i, 0), i LT activethumbgroup_thumbcount, inc(i)
+		,
+			tweengroupchildrenback(get(i), get(xoffset), get(activethumbgroup));
+		);
+		
+		mul(w1, get(thumbgroup_count), get(skin_settings.parentthumbs_totalwidth));
+		tween(layer[skin_thumbs].width, get(w1));
+		copy(jj, activethumbgroupname);
+		tween(layer[get(jj)].width, get(skin_settings.parentthumbs_totalwidth));
+		trace(layer[get(activethumbgroupname)].width, ' X ',get(skin_settings.parentthumbs_totalwidth));
+		
+		layer[skin_thumbs].scrolltocenter(0,0);
+
+		set(activethumbgroup, '');
+		set(activethumbgroup_thumbcount, '');
+		set(activethumbgroup_index, '');
+	</action>
+	
+	<action name="tweengroupparent">
+		<!--add(skin_settings.parentthumbs_totalwidth, get(skin_settings.parentthumbs_width), get(skin_settings.parentthumbs_padding));-->
+		mul(thumbx, %1, get(skin_settings.parentthumbs_totalwidth));
+
+		add(finaloffset, get(thumbx), %2);
+		mul(speed, get(thumbgroup_%3_thumbcount), 0.2);
+		tween(layer[get(thumbgroup_array_%1)].x, get(finaloffset));
+		trace(layer[get(thumbgroup_array_%1)].x);
+	</action>
+	
+	<action name="tweengroupchildren">
+		<!--add(skin_settings.childthumbs_totalwidth, get(skin_settings.childthumbs_width), get(skin_settings.childthumbs_padding));-->
+		mul(finaloffset, %1, get(skin_settings.childthumbs_totalwidth));
+		add(fromparentoffset, get(skin_settings.childthumbs_padding), get(skin_settings.parentthumbs_totalwidth));
+		sub(fromparentoffset, get(skin_settings.parentthumbs_padding));
+		add(finaloffset, get(fromparentoffset));
+		div(speed, %1, 5);
+		tween(layer[get(thumbgroup_%3_children_array_%1)].x, get(finaloffset));
+		trace(layer[get(thumbgroup_%3_children_array_%1)].x);
+	</action>
+	
+	<action name="tweengroupparentback">
+		<!--add(skin_settings.parentthumbs_totalwidth, get(skin_settings.parentthumbs_width), get(skin_settings.parentthumbs_padding));-->
+		mul(finaloffset, %1, get(skin_settings.parentthumbs_totalwidth));
+		mul(speed, get(thumbgroup_%3_thumbcount), 0.2);
+		tween(layer[get(thumbgroup_array_%1)].x, get(finaloffset));
+		trace(layer[get(thumbgroup_array_%1)].x);
+	</action>
+	
+	<action name="tweengroupchildrenback">
+		div(speed, %1, 5);
+		tween(layer[get(thumbgroup_%3_children_array_%1)].x, get(skin_settings.parentthumbs_padding));
+		trace(layer[get(thumbgroup_%3_children_array_%1)].x);
+	</action>
+	
+	<!--action name="skin_addthumbsss">
+		copy(thumbwidth, skin_settings.childthumbs_width);
+		copy(thumbheight, skin_settings.thumbs_height);
+		copy(thumbpadding, skin_settings.childthumbs_padding);
+		copy(thumbcrop, skin_settings.thumbs_crop);
+
+		if(device.mobile,
+			mul(thumbwidth,2);
+			mul(thumbheight,2);
+			mul(thumbpadding,2);
+		  );
+
+		add(thumbxoffset, thumbwidth, thumbpadding);
+		mul(thumbxcenter, thumbxoffset, 0.5);
+		mul(thumbbarwidth, thumbxoffset, scene.count);
+		add(thumbbarwidth, thumbpadding);
+		add(thumbbarheight, thumbpadding, thumbheight);
+		add(thumbbarheight, thumbpadding);
+
+		if (skin_settings.thumbs_scrollindicator,
+			copy(layer[skin_thumbs_scrollindicator].y, thumbbarheight);
+			add(thumbbarheight, layer[skin_thumbs_scrollindicator].height);
+		);
+
+		copy(layer[skin_thumbs].height, thumbbarheight);
+		copy(layer[skin_thumbs].width, thumbbarwidth);
+
+		mul(halfheight, thumbbarheight, 0.5);
+		copy(layer[skin_thumbs_scrollleft].y, halfheight);
+		copy(layer[skin_thumbs_scrollright].y, halfheight);
+
+		for(set(i,0), i LT scene.count, inc(i)
+		,
+			process_scene_thumb(get(i), get(scene[get(i)].name), get(scene[get(i)].group));
+			
+				txtadd(thumbname,'skin_thumb_',get(i));
+				addlayer(get(thumbname));
+				copy(layer[get(thumbname)].url, scene[get(i)].thumburl);
+				set(layer[get(thumbname)].keep, true);
+				set(layer[get(thumbname)].parent, 'skin_thumbs');
+				set(layer[get(thumbname)].align, lefttop);
+				copy(layer[get(thumbname)].crop, thumbcrop);
+				copy(layer[get(thumbname)].width, thumbwidth);
+				copy(layer[get(thumbname)].height, thumbheight);
+				mul(thumbx, i, thumbxoffset);
+				add(thumbx, thumbpadding);
+				copy(layer[get(thumbname)].x, thumbx);
+				copy(layer[get(thumbname)].y, thumbpadding);
+				add(scene[get(i)].thumbx, thumbx, thumbxcenter);
+				copy(scene[get(i)].thumby, thumbpadding);
+				set(layer[get(thumbname)].linkedscene, get(scene[get(i)].name) );
+				set(layer[get(thumbname)].onclick, copy(layer[skin_thumbborder].parent, name); loadscene(get(linkedscene), null, MERGE, BLEND(0.5)); );
+				
+				settitle(get(scene[get(i)].title));
+				if(finaltitle != null, set(scene[get(i)].title,get(finaltitle)););
+				
+				if(skin_settings.tooltips_thumbs,
+					set(layer[get(thumbname)].onhover, showtext(get(scene[get(linkedscene)].title),SKIN_TOOLTIPS); );
+				  );
+				if(skin_settings.thumbs_text,
+					txtadd(thumbtext, 'skin_thumbtext_', get(i));
+					addlayer(get(thumbtext));
+					layer[get(thumbtext)].loadstyle(skin_thumbtext_style);
+					set(layer[get(thumbtext)].keep, true);
+					set(layer[get(thumbtext)].parent, get(thumbname));
+					set(layer[get(thumbtext)].html, get(scene[get(i)].title));
+				  );
+				
+				txtadd(thumbmediaiconname,'skin_thumbmediaicon_',get(i));
+				addlayer(get(thumbmediaiconname));
+				set(layer[get(thumbmediaiconname)].keep, true);
+				set(layer[get(thumbmediaiconname)].parent, get(thumbname));
+				set(layer[get(thumbmediaiconname)].enabled, 'false');
+				set(layer[get(thumbmediaiconname)].capture, 'false');
+				set(layer[get(thumbmediaiconname)].align, bottomleft);  
+				if( scene[get(i)].hasvideo
+					, set(layer[get(thumbmediaiconname)].url, '%SWFPATH%/skin/panomediaicon.png');
+					, set(layer[get(thumbmediaiconname)].url, '%SWFPATH%/skin/panonomediaicon.png');
+				);
+				if(device.mobile, trace(scale); set(layer[get(thumbmediaiconname)].scale, 2););
+		);
+	</action-->
+</krpano>

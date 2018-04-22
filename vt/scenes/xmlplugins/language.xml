@@ -1,0 +1,515 @@
+<krpano>
+
+
+<action name="setlangtoen">
+
+  set(language,en); 
+  set(plugin[langEn].visible,true);set(plugin[langFa].visible,false);set(language,en);
+  set(langtextstyle,titren);
+  
+  set(CropCaptionTabSearch,1042|84.75|83|20);
+  set(CropCaptionTabHelp,1042|106.5|83|20);
+  set(CropCaptionTabLibrary,1042|23|83|20);
+  set(CropCaptionTabGM,1042|3|83|20);
+  set(CropCaptionTabPlan,1042|43|83|20);
+  set(CropCaptionTabAboutUs,1053|87|58|15);
+  set(CropCaptiontabbook,1055|23|51|20);
+  set(CropCaptiontabmultimedia,669|137|151|22);
+  
+  set(quittxt,Exit);
+  set(gmtxt-13,'Andisheh cultural center');
+  
+  
+	delayedcall(0.1,
+						for(set(i,0), i LT plugin.count, inc(i), 
+							if(plugin[get(i)].url_en !== null ,  
+													set(plugin[get(i)].url, get(plugin[get(i)].url_en));
+											 
+							);
+						);  
+);
+
+  set(prevtxt,Next Pano);
+  set(nexttxt,Previous Pano);
+  set(thumbstxt,thumbnail View);
+  set(maptxt,Map);
+  set(lefttxt,Pan Left);
+  set(righttxt,Pan Right);
+  set(uptxt,Tilt Up);
+  set(downtxt,Tilt Down);
+  set(zoomintxt,Zoom In);
+  set(zoomouttxt,Zoom Out);
+  set(gyrotxt,Gyroscope);
+  set(fullscreentxt,Fullscreen);
+  set(hidemenutxt,Close Menu);
+  set(showmenutxt,Open Menu);
+  set(quittxt,Quit);
+  set(plantxt,Map);
+  set(onlinemaptxt,Google Maps);
+  set(helptxt,Help);
+  set(aboutustxt,About Us);
+  set(infotxt,Info);
+  set(gallerytxt,Gallery);
+  
+  set(gmtxt-1101, 1101);
+  
+  set(maptxt-01_00,Corridor);
+  set(maptxt-02_00,Corridor);
+  set(maptxt-03_00,Corridor);
+  set(maptxt-04_00,Corridor);
+  set(maptxt-05_00,Corridor);
+  set(maptxt-06_00,Corridor);
+  set(maptxt-07_00,Corridor);
+  set(maptxt-08_00,Corridor);
+  set(maptxt-09_00,Corridor);
+  set(maptxt-83_00,117 Living Room );
+  set(maptxt-11_00,117 Bathroom );
+  set(maptxt-84_00,117 Room );
+  set(maptxt-78_00,118 Room );
+  set(maptxt-15_00,119 Room );
+  set(maptxt-80_00,114 Room );
+  set(maptxt-79_00,114 Living Room );
+  set(maptxt-18_00,114 Bathroom );
+  set(maptxt-19_00,Corridor);
+  set(maptxt-20_00,Corridor);
+  set(maptxt-76_00,112 Room );
+  set(maptxt-22_00,103 Room);
+  
+  set(maptxt-23_00,101 Room );
+  set(maptxt-23_02,201 Room );
+  set(maptxt-23_03,301 Room );
+  set(maptxt-23_04,401 Room );
+  set(maptxt-23_05,501 Room );
+  set(maptxt-23_06,601 Room );
+  set(maptxt-23_07,701 Room );
+  set(maptxt-23_08,801 Room );
+  
+  set(maptxt-24_00,111 Room );
+  set(maptxt-24_01,110 Room );
+  set(maptxt-24_02,210 Room );
+  set(maptxt-24_03,310 Room );
+  set(maptxt-24_04,410 Room );
+  
+  set(maptxt-24_12,211 Room );
+  set(maptxt-24_13,311 Room );
+  set(maptxt-24_14,411 Room );
+  
+  set(maptxt-74_00,109 Room );
+  set(maptxt-74_91,109 Room );
+  set(maptxt-74_92,209 Room );
+  set(maptxt-74_93,309 Room );
+  set(maptxt-74_94,409 Room );
+  
+  set(maptxt-26,109 Bathroom );
+  set(maptxt-26_02,209 Bathroom );
+  set(maptxt-26_03,309 Bathroom );
+  set(maptxt-26_04,409 Bathroom );
+  
+  
+  set(maptxt-82_00,105 Room );
+  set(maptxt-82_01,102 Room );
+  set(maptxt-82_02,202 Room );
+  set(maptxt-82_03,302 Room );
+  set(maptxt-82_04,402 Room );
+  set(maptxt-82_05,502 Room );
+  set(maptxt-82_06,602 Room );
+  set(maptxt-82_07,702 Room );
+  set(maptxt-82_08,802 Room );
+  
+  set(maptxt-82_32,203 Room );
+  set(maptxt-82_33,303 Room );
+  set(maptxt-82_34,403 Room );
+  set(maptxt-82_35,503 Room );
+  set(maptxt-82_36,603 Room );
+  set(maptxt-82_37,703 Room );
+  set(maptxt-82_38,803 Room );
+  
+  set(maptxt-82_52,205 Room );
+  set(maptxt-82_53,305 Room );
+  set(maptxt-82_54,405 Room );
+  set(maptxt-82_55,505 Room );
+  set(maptxt-82_56,605 Room );
+  set(maptxt-82_57,705 Room );
+  set(maptxt-82_58,805 Room );
+  
+  set(maptxt-82_22,212 Room );
+  set(maptxt-82_23,312 Room );
+  set(maptxt-82_24,412 Room );
+  
+  set(maptxt-82_42,214 Room );
+  set(maptxt-82_43,314 Room );
+  set(maptxt-82_44,414 Room );
+  
+  set(maptxt-28_00,318 Living Room );
+  set(maptxt-28_02,218 Living Room );
+  set(maptxt-28_04,418 Living Room );
+  
+  set(maptxt-29_00,318 Room );
+  set(maptxt-29_04,418 Room );
+  set(maptxt-29_02,218 Room );
+  
+  set(maptxt-30_00,Kitchen);
+  
+  set(maptxt-69_00,315 Room );
+  set(maptxt-69_51,115 Room );
+  set(maptxt-69_52,215 Room );
+  set(maptxt-69_54,415 Room );
+  
+  set(maptxt-32_00,315 Bathroom );
+  set(maptxt-32_04,415 Bathroom );
+  set(maptxt-32_02,215 Bathroom );
+  
+  set(maptxt-33_00,Corridor);
+  set(maptxt-34_00,Corridor);
+  set(maptxt-35_00,Breakfast Dining);
+  
+  set(maptxt-36_00,608 Room );
+  set(maptxt-36_87,708 Room );
+  set(maptxt-36_88,808 Room );
+  
+  set(maptxt-37_00,508 Room );
+  set(maptxt-72_00,512 Room );
+  set(maptxt-39_00,Laundry);
+  
+  set(maptxt-88_00,507 Room );
+  set(maptxt-88_62,206 Room );
+  set(maptxt-88_63,306 Room );
+  set(maptxt-88_64,406 Room );
+  set(maptxt-88_65,506 Room );
+  set(maptxt-88_66,606 Room );
+  set(maptxt-88_67,706 Room );
+  set(maptxt-88_68,806 Room );
+  
+  set(maptxt-88_15,511 Room );
+  
+  set(maptxt-88_61,106 Room );
+  
+  set(maptxt-88_71,107 Room );
+  set(maptxt-88_72,207 Room );
+  set(maptxt-88_73,307 Room );
+  set(maptxt-88_74,407 Room );
+  set(maptxt-88_76,607 Room );
+  set(maptxt-88_77,707 Room );
+  set(maptxt-88_78,807 Room );
+  
+  set(maptxt-88_81,108 Room );
+  set(maptxt-88_82,208 Room );
+  set(maptxt-88_83,308 Room );
+  set(maptxt-88_84,408 Room );
+  
+  set(maptxt-88_05,510 Room );
+  
+  set(maptxt-88_611,116 Room );
+  set(maptxt-88_621,216 Room );
+  set(maptxt-88_631,316 Room );
+  set(maptxt-88_641,416 Room );
+  
+  set(maptxt-88_721,217 Room );
+  set(maptxt-88_731,317 Room );
+  set(maptxt-88_741,417 Room );
+  
+  set(maptxt-41_00,Corridor);
+  set(maptxt-42_00,Making Salad);
+  set(maptxt-43_00,Washing Dishes);
+  set(maptxt-44_00,Coffee Shop);
+  set(maptxt-61_00,Coffee Shop);
+  set(maptxt-46_00,509 Room );
+  
+  set(maptxt-47_00,704 Room );
+  set(maptxt-47_01,104 Room );
+  set(maptxt-47_02,204 Room );
+  set(maptxt-47_03,304 Room );
+  set(maptxt-47_04,404 Room );
+  set(maptxt-47_05,504 Room );
+  set(maptxt-47_06,604 Room );
+  set(maptxt-47_08,804 Room );
+  
+  set(maptxt-48_00,Breakfast Dining);
+  set(maptxt-64_00,Restaurant);
+  set(maptxt-81_00,Restaurant);
+  set(maptxt-63_00,Restaurant);
+  set(maptxt-52_00,Lobby);
+  set(maptxt-53_00,Lobby);
+  set(maptxt-54_00,Street);
+  set(maptxt-55_00,Management Office);
+
+
+</action>
+
+
+<action name="setlangtofa">
+
+  set(language,fa);
+  set(plugin[aboutuspic].url,%SWFPATH%\%$jni_tour_url%\attachfiles/pic/aboutusfa.png);
+
+  set(langtextstyle,titrfa);
+  
+  set(CropCaptionTabSearch,1164|70|49|16);
+  set(CropCaptionTabHelp,1170|87|38|20);
+  set(CropCaptionTabLibrary,1131|25|114|22);
+  set(CropCaptionTabGM,1131|3.5|114|22);
+  set(CropCaptionTabPlan,1131|107|114|22);
+  set(CropCaptionTabAboutUs,1131|45|114|22);
+  set(CropCaptiontabbook,1161|24|56|21);
+  set(CropCaptiontabmultimedia,1162|66|54|22);
+
+
+  set(prevtxt,نماي قبلي);
+  set(nexttxt,نماي بعدي);
+  set(thumbstxt,انتخاب نما);
+  set(maptxt,نقشه);
+  set(lefttxt,چرخش به چپ);
+  set(righttxt,چرخش به راست);
+  set(uptxt,چرخش به بالا);
+  set(downtxt,چرخش به پايين);
+  set(zoomintxt,بزرگ نمايي);
+  set(zoomouttxt,کوچک نمايي);
+  set(gyrotxt,جيروسکوپ);
+  set(fullscreentxt,تمام صفحه);
+  set(hidemenutxt,بستن منو);
+  set(showmenutxt,باز کردن منو);
+  set(quittxt,خروج);
+  set(plantxt,پلان);
+  set(onlinemaptxt,نقشه گوگل);
+  set(helptxt,راهنما);
+  set(aboutustxt,در باره ما);
+  set(exhibitiongallerytxt,گالري نمايشگاه);
+  set(productgallerytxt,در باره محصول);
+  set(infotxt,اطلاعات نما);
+  set(gallerytxt,گالري);
+
+  
+  set(gmtxt-1101, 1101);
+
+  set(maptxt-01_00,راهرو);
+  set(maptxt-02_00,راهرو);
+  set(maptxt-03_00,راهرو);
+  set(maptxt-04_00,راهرو);
+  set(maptxt-05_00,راهرو);
+  set(maptxt-06_00,راهرو);
+  set(maptxt-07_00,راهرو);
+  set(maptxt-08_00,راهرو);
+  set(maptxt-09_00,راهرو);
+  set(maptxt-83_00,پذيرايي اتاق 117);
+  set(maptxt-11_00,سرويس اتاق 117);
+  set(maptxt-84_00,اتاق 117);
+  set(maptxt-78_00,اتاق 118);
+  set(maptxt-15_00,اتاق 119);
+  set(maptxt-80_00,اتاق 114);
+  set(maptxt-79_00,پذيرايي اتاق 114);
+  set(maptxt-18_00,سرويس اتاق 114);
+  set(maptxt-19_00,راهرو);
+  set(maptxt-20_00,راهرو);
+  set(maptxt-76_00,اتاق  112);
+  set(maptxt-22_00,اتاق  103);
+  
+  set(maptxt-23_00,اتاق  101);
+  set(maptxt-23_02,اتاق  201);
+  set(maptxt-23_03,اتاق  301);
+  set(maptxt-23_04,اتاق  401);
+  set(maptxt-23_05,اتاق  501);
+  set(maptxt-23_06,اتاق  601);
+  set(maptxt-23_07,اتاق  701);
+  set(maptxt-23_08,اتاق  801);
+  
+  set(maptxt-24_00,اتاق  111);
+  set(maptxt-24_01,اتاق  110);
+  set(maptxt-24_02,اتاق  210);
+  set(maptxt-24_03,اتاق  310);
+  set(maptxt-24_04,اتاق  410);
+  
+  set(maptxt-24_12,اتاق  211);
+  set(maptxt-24_13,اتاق  311);
+  set(maptxt-24_14,اتاق  411);
+  
+  set(maptxt-74_00,اتاق 109);
+  set(maptxt-74_91,اتاق 109);
+  set(maptxt-74_92,اتاق 209);
+  set(maptxt-74_93,اتاق 309);
+  set(maptxt-74_94,اتاق 409);
+  
+  set(maptxt-26_00,سرويس اتاق 109);
+  set(maptxt-26_02,سرويس اتاق 209);
+  set(maptxt-26_03,سرويس اتاق 309);
+  set(maptxt-26_04,سرويس اتاق 409);
+  
+  
+  set(maptxt-82_00,اتاق  105);
+  set(maptxt-82_01,اتاق  102);
+  set(maptxt-82_02,اتاق  202);
+  set(maptxt-82_03,اتاق  302);
+  set(maptxt-82_04,اتاق  402);
+  set(maptxt-82_05,اتاق  502);
+  set(maptxt-82_06,اتاق  602);
+  set(maptxt-82_07,اتاق  702);
+  set(maptxt-82_08,اتاق  802);
+  
+  set(maptxt-82_32,اتاق  203);
+  set(maptxt-82_33,اتاق  303);
+  set(maptxt-82_34,اتاق  403);
+  set(maptxt-82_35,اتاق  503);
+  set(maptxt-82_36,اتاق  603);
+  set(maptxt-82_37,اتاق  703);
+  set(maptxt-82_38,اتاق  803);
+  
+  set(maptxt-82_52,اتاق  205);
+  set(maptxt-82_53,اتاق  305);
+  set(maptxt-82_54,اتاق  405);
+  set(maptxt-82_55,اتاق  505);
+  set(maptxt-82_56,اتاق  605);
+  set(maptxt-82_57,اتاق  705);
+  set(maptxt-82_58,اتاق  805);
+  
+  set(maptxt-82_22,اتاق  212);
+  set(maptxt-82_23,اتاق  312);
+  set(maptxt-82_24,اتاق  412);
+  
+  set(maptxt-82_42,اتاق  214);
+  set(maptxt-82_43,اتاق  314);
+  set(maptxt-82_44,اتاق  414);
+  
+  set(maptxt-28_00,پذيرايي اتاق 318);
+  set(maptxt-28_02,پذيرايي اتاق 218);
+  set(maptxt-28_04,پذيرايي اتاق 418);
+  
+  set(maptxt-29_00,اتاق 318);
+  set(maptxt-29_04,اتاق 418);
+  set(maptxt-29_02,اتاق 218);
+  
+  set(maptxt-30_00,آشپزخانه);
+  
+  set(maptxt-69_00,اتاق 315);
+  set(maptxt-69_51,اتاق  115);
+  set(maptxt-69_52,اتاق 215);
+  set(maptxt-69_54,اتاق 415);
+  
+  set(maptxt-32_00,سرويس اتاق 315);
+  set(maptxt-32_04,سرويس اتاق 415);
+  set(maptxt-32_02,سرويس اتاق 215);
+  
+  set(maptxt-33_00,راهرو);
+  set(maptxt-34_00,راهرو);
+  set(maptxt-35_00,صبحانه خوري);
+  
+  set(maptxt-36_00,اتاق 608);
+  set(maptxt-36_87,اتاق 708);
+  set(maptxt-36_88,اتاق 808);
+  
+  set(maptxt-37_00,اتاق 508);
+  set(maptxt-72_00,اتاق 512);
+  set(maptxt-39_00,لاندري);
+  
+  set(maptxt-88_00,اتاق 507);
+  set(maptxt-88_62,اتاق 206);
+  set(maptxt-88_63,اتاق 306);
+  set(maptxt-88_64,اتاق 406);
+  set(maptxt-88_65,اتاق 506);
+  set(maptxt-88_66,اتاق 606);
+  set(maptxt-88_67,اتاق 706);
+  set(maptxt-88_68,اتاق 806);
+  
+  set(maptxt-88_15,اتاق 511);
+  
+  set(maptxt-88_61,اتاق 106);
+  
+  set(maptxt-88_71,اتاق 107);
+  set(maptxt-88_72,اتاق 207);
+  set(maptxt-88_73,اتاق 307);
+  set(maptxt-88_74,اتاق 407);
+  set(maptxt-88_76,اتاق 607);
+  set(maptxt-88_77,اتاق 707);
+  set(maptxt-88_78,اتاق 807);
+  
+  set(maptxt-88_81,اتاق 108);
+  set(maptxt-88_82,اتاق 208);
+  set(maptxt-88_83,اتاق 308);
+  set(maptxt-88_84,اتاق 408);
+  
+  set(maptxt-88_05,اتاق 510);
+  
+  set(maptxt-88611,اتاق 116);
+  set(maptxt-88621,اتاق 216);
+  set(maptxt-88631,اتاق 316);
+  set(maptxt-88641,اتاق 416);
+  
+  set(maptxt-88721,اتاق 217);
+  set(maptxt-88731,اتاق 317);
+  set(maptxt-88741,اتاق 417);
+  
+  set(maptxt-41_00,راهرو);
+  set(maptxt-42_00,سالاد سازي);
+  set(maptxt-43_00,ظرف شويي);
+  set(maptxt-44_00,ورودي کافي شاپ);
+  set(maptxt-61_00,کافي شاپ);
+  set(maptxt-46_00,اتاق 509);
+  
+  set(maptxt-47_00,اتاق 704);
+  set(maptxt-47_01,اتاق 104);
+  set(maptxt-47_02,اتاق 204);
+  set(maptxt-47_03,اتاق 304);
+  set(maptxt-47_04,اتاق 404);
+  set(maptxt-47_05,اتاق 504);
+  set(maptxt-47_06,اتاق 604);
+  set(maptxt-47_08,اتاق 804);
+  
+  set(maptxt-48_00,صبحانه خوري);
+  set(maptxt-64_00,رستوران);
+  set(maptxt-81_00,رستوران);
+  set(maptxt-63_00,رستوران);
+  set(maptxt-52_00,لابي);
+  set(maptxt-53_00,لابي);
+  set(maptxt-54_00,بيرون);
+  set(maptxt-55_00,دفتر مديريت);
+  
+  set(maptxt-62_00,اتاق ماساژ);
+  set(maptxt-65_00,اتاق ماساژ);
+  set(maptxt-66_00,رختکن سونا و جکوزی);
+  set(maptxt-67_00,سونا و جکوزی);
+  set(maptxt-68_00,ورودی سونا و جکوزی);
+  set(maptxt-85_00,پارکینگ);
+  set(maptxt-70_00,فست فود);
+  set(maptxt-71_00,فست فود);
+  
+
+  
+delayedcall(0.1,
+						for(set(i,0), i LT plugin.count, inc(i), 
+							if(plugin[get(i)].url_fa !== null ,  
+													set(plugin[get(i)].url, get(plugin[get(i)].url_fa));
+											 
+							);
+						);  
+);
+
+  
+</action>
+
+
+	<textstyle name="titrfa"
+			   font="B lotus"
+               fontsize="16"
+			   bold="true"
+			   italic="false"
+			   background="false"
+			   border="false"
+			   textcolor="0x000000"
+			   textalign="center"
+			   blendmode="layer"
+			   effect="glow(0xFFFFFF,0.85,4,4);dropshadow(4,45,0x000000,4,1);"
+			   />
+			   	
+	<textstyle name="titren"
+			   font="Calibri"
+			   fontsize="16"
+			   bold="true"
+			   italic="false"
+			   background="false"
+			   border="false"
+			   textcolor="0x000000"
+			   textalign="center"
+			   blendmode="layer"
+			   effect="glow(0xFFFFFF,0.85,4,4);dropshadow(4,45,0x000000,4,1);"
+			   />	
+			   
+			   
+</krpano>

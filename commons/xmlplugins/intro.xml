@@ -1,0 +1,29 @@
+<krpano>
+	<plugin name="introimage"
+		ox="0"
+		oy="0"
+		x="0"
+		y="0"
+		url="%SWFPATH%\%$jni_tour_url%\attachfiles/pic/introimage.png"
+		align="center"
+		onloaded="delayedcall(5,hideintroimage(););"
+		onclick="hideintroimage();"
+		keep="true"
+		scale="1"
+		enabled="true"
+		edge="center"
+		zorder="100"
+		height="45%"
+		width="prop"
+
+	/>
+
+	<action name="hideintroimage">
+			plugin[introimage].changeorigin(topright,topright);
+			tween(plugin[introimage].x,2,1,easeOutQuad);
+			tween(plugin[introimage].y,2,1,default);
+			tween(plugin[introimage].height,20%,1,easeOutQuad);
+
+			delayedcall(1.5, set(plugin[introimage].onclick, "openurl('http://irdmfestival.com/intro.html',_blank);"););	
+	</action>
+</krpano>

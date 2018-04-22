@@ -1,0 +1,78 @@
+<krpano>
+
+<plugin name="googlemap"
+	        url="%SWFPATH%/plugins/bingmaps.swf"
+	        alturl="%SWFPATH%/plugins/bingmaps.js"
+			visible="true"
+	        keep="true"
+			align="lefttop"
+	       x="0%" 
+	        y="0%" 
+	        width="100%"
+	        height="100%"
+        key="AuPik6anF_UjjSMTM7VEKbzeA2UodiiPm18CleKeUxp2cBx5rOjNaYHcrB_c6bWB"
+        maptype="satellite"
+        maptypes="normal|satellite|hybrid"
+			lat="35.733104"
+			lng="51.381034"
+        zoom="18"
+        maphandcursor="false"
+        activespotenabled="true"
+        dragging="true"
+        scrollwheel="true"
+        dbclicking="false"
+        onmapready=""
+        onmaptypechanged=""
+        onmapmoved=""
+        onmapzoomed=""
+		parent="layer[skin_onlinemaps_container]"
+		>
+			
+		<radar visible="true" size="1000" alpha="0.33" fillcolor="0xFFFFFF" fillalpha="1.0"
+			   linecolor="0xFFFFFF" linealpha="0.0" linewidth="0.0"
+			   glow="true" glowcolor="0" glowwidth="4" glowstrength="3"
+			   behindspots="true" dragable="true"
+			   />
+			   
+		<zoomcontrol  visible="true" anchor="topleft" x="10" y="100" hasscrolltrack="false" />
+		
+<spotstyle name="gmspots_style"
+           url=""
+           overurl=""
+           activeurl=""
+           edge="center"
+           x="0"
+           y="0"
+           shadow="true"
+           />
+		   
+		   
+		   		<!-- map spots -->
+		<spot name="gm-1101"
+			lat="35.733104"
+			lng="51.381034"
+			heading="-50"
+            onhover="showtext(get(gmtxt-1101),get(langtextstyle));"
+		    style="gmspots_style"
+		    onclick="load_map_pano(1101);"
+		      />
+			  
+<maptypecontrol visible="true" align="rightbottom" x="2" y="2"
+                buttonalign="H"
+                />
+			  
+
+</plugin>
+
+
+
+<!-- load and update map actions -->
+<action name="update_map_spot">
+		plugin[googlemap].activatespot(%1);
+		plugin[googlemap].pantospot(%1);
+</action>
+	
+<action name="load_map_pano">
+		loadscene('scene%1',null, MERGE,BLEND(1));
+</action>
+</krpano>

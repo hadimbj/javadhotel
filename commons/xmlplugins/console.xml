@@ -1,0 +1,127 @@
+<krpano>
+<!--**********************top_bar******************************-->
+
+	<events   name="jniconsole"  keep="true"
+        onkeydown="
+							 
+							if(jniconsole !=1,if(keycode==74,set(jniconsole,1); );  );
+							if(jniconsole ==1,if(keycode==78,set(jniconsole,2); );  );
+							if(jniconsole ==2,if(keycode==73,  set(jniconsole,3); 
+																				showlog();
+																				trace('welcome to JNI Console');
+																				set(consoleopen,true);
+																				
+																				removeplugin (editor);
+																				addplugin(editor);
+																				plugin[editor].loadstyle(editor_style);
+																				
+																				removeplugin (options);
+																				addplugin(options);
+																				plugin[options].loadstyle(options_style);
+																				
+																				for(set(i,0), i LT hotspot.count, inc(i), 
+																											if( hotspot[get(i)].style== 'video_HotSpotStyle',
+																											
+																												txtadd(hotspot[get(i)].ondown,'draghotspot();');			
+																												set(hotspot[get(i)].capture,true);			
+																												txtadd(hotspot[get(i)].onhover,'showtext(get(name), get(langtextstyle));');
+																												
+																												
+																											);
+																				);
+																				print_info();
+
+
+												);							
+																				
+							);
+							
+						if(consoleopen,if(keycode==79,   removeplugin (hotspotinfo);         ););
+						"
+        onkeyup="if(keycode==74,set(jniconsole,''); ); if(keycode==78,set(jniconsole,''); );if(keycode==73,set(jniconsole,''); );"
+        onclick=""
+        onmousedown=""
+        onmouseup=""
+        onmousewheel=""
+    />	
+
+	<style name="editor_style"  url="%SWFPATH%/plugins/editor.swf" keep="true"  />
+	<style name="options_style" url="%SWFPATH%/plugins/options.swf" keep="true" view="false" display="false" control="false" image="false" onloaded="" />
+		
+
+	<!-- textfield with information about the currently dragged hotspot -->
+	<style name="console_info" keep="false"
+	        url="%SWFPATH%/plugins/textfield.swf"
+	        html=""
+	        css="font-family:Tahoma;"
+	        borderwidth="0"
+	        align="left"
+			edge="left"
+			y="0"
+	        width="500"
+	        height="600"
+			
+	        />
+
+	
+	
+	
+	<!-- the action for dragging the hotspot - call it once in the ondown event -->
+	<action name="print_info">
+	<![CDATA[
+					for(set(i,0), i LT hotspot.count, inc(i), 
+												if( hotspot[get(i)].style== 'video_HotSpotStyle',
+				copy(print_ath, hotspot[get(i)].ath);
+				copy(print_atv, hotspot[get(i)].atv);
+				txtadd(plugin[hotspotinfo].html,get(plugin[hotspotinfo].html),'[br]', '&lt;hotspot name="',get(hotspot[get(i)].name),'"    style="','get(hotspot[get(i)].style)','"[br]		ath="',get(print_ath),'"		atv="',get(print_atv),'"[br]			/&gt;[br]');
+																
+												);
+					);
+	]]>
+	</action>
+	<action name="loadconsole">
+		set(consoleopen,true);
+
+		removeplugin (editor);
+		addplugin(editor);
+		plugin[editor].loadstyle(editor_style);
+
+		removeplugin (options);
+		addplugin(options);
+		plugin[options].loadstyle(options_style);
+	</action>
+
+		<action name="draghotspot">
+		if(%1 != dragging,
+			spheretoscreen(ath, atv, hotspotcenterx, hotspotcentery);
+			sub(drag_adjustx, mouse.stagex, hotspotcenterx); 
+			sub(drag_adjusty, mouse.stagey, hotspotcentery); 
+			draghotspot(dragging);
+		  ,
+			if(pressed,
+				sub(dx, mouse.stagex, drag_adjustx);
+				sub(dy, mouse.stagey, drag_adjusty);
+				screentosphere(dx, dy, ath, atv);
+
+				
+				delayedcall(0, draghotspot(dragging) );
+			  );
+		  );
+	</action>
+	
+	
+	
+	
+		<plugin name="changebutton" 
+		    url="%SWFPATH%/plugins/textfield.swf" 
+		    children="false"
+		    css="text-align:center; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:10px;"
+		    vcenter="true"
+		    backgroundcolor="0x000000" backgroundalpha="0.667" roundedge="10" border="false"
+		    shadow="0.1" shadowrange="8" shadowcolor="0xFFFFFF"
+	        html="Change Parent"
+	        align="bottom" x="0" y="35" width="120" height="22"
+	        onclick="switch(plugin[child].parent, null, button1, button2, button3, hotspot[button4], changebutton);"
+	        />
+
+</krpano>
